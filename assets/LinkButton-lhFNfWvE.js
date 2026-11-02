@@ -1,0 +1,1 @@
+import{j as o,L as e,e as i,aE as m}from"./index-VmY6Lnfh.js";function p({variant:s="primary",size:t="md",className:a,children:n,...r}){return o.jsx(e,{className:i(m({variant:s,size:t}),a),...r,children:n})}export{p as L};
