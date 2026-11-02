@@ -10,6 +10,7 @@ import type {
 import { APPLICATION_STAGES, ACTIVE_STAGES } from '../../types';
 import { daysUntil, getWeekForDate, INPUT_DATE, todayISO } from '../dates';
 import { average, clamp, percent, sortByDateDesc, truncate } from '../utils';
+import { SYNC_EPOCH } from '../sync/constants';
 import { getDayStudyStats, getStudyStreak, getWeekStudyStats, summarizeWeek } from './timetable';
 
 export interface ImprovementArea {
@@ -173,7 +174,9 @@ function getRecentActivities(data: AppData): ActivityItem[] {
     });
   }
 
-  return sortByDateDesc(items, (item) => item.timestamp).slice(0, 8);
+  return sortByDateDesc(items, (item) => item.timestamp)
+    .filter((item) => item.timestamp > SYNC_EPOCH)
+    .slice(0, 8);
 }
 
 function settingsTargetLabel(data: AppData): string {

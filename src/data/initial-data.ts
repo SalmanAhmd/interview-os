@@ -1,10 +1,19 @@
-import type { AppData, Settings } from '../types';
+import type { AppData, Settings, SyncMeta } from '../types';
+import { SYNC_EPOCH } from '../lib/sync/constants';
 import { initialRoadmap } from './initial-roadmap';
 import { initialTimetable } from './initial-timetable';
 import { initialGoals } from './initial-goals';
 import { initialTechCategories } from './initial-technical';
 
-export const SCHEMA_VERSION = 1;
+export const SCHEMA_VERSION = 2;
+
+export function createEmptySyncMeta(): SyncMeta {
+  return {
+    settingsUpdatedAt: SYNC_EPOCH,
+    dailyLogsUpdatedAt: {},
+    tombstones: {},
+  };
+}
 
 export const defaultSettings: Settings = {
   userName: 'Salman',
@@ -39,6 +48,7 @@ export function createInitialData(): AppData {
     goals: structuredClone(initialGoals),
     companies: [],
     notes: [],
+    syncMeta: createEmptySyncMeta(),
   };
 }
 

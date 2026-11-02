@@ -1,6 +1,7 @@
 import type { Goal } from '../types';
+import { SYNC_EPOCH } from '../lib/sync/constants';
 
-const NOW = new Date().toISOString();
+const NOW = SYNC_EPOCH;
 
 export const initialGoals: Goal[] = [
   {
@@ -11,9 +12,9 @@ export const initialGoals: Goal[] = [
     progress: 15,
     status: 'In Progress',
     milestones: [
-      { id: 'm1', title: 'Closures and scope', done: true },
-      { id: 'm2', title: 'Prototypes and this', done: false },
-      { id: 'm3', title: 'Event loop and promises', done: false },
+      { id: 'm1', title: 'Closures and scope', done: true, updatedAt: NOW },
+      { id: 'm2', title: 'Prototypes and this', done: false, updatedAt: NOW },
+      { id: 'm3', title: 'Event loop and promises', done: false, updatedAt: NOW },
     ],
     createdAt: NOW,
     updatedAt: NOW,
@@ -26,9 +27,9 @@ export const initialGoals: Goal[] = [
     progress: 10,
     status: 'In Progress',
     milestones: [
-      { id: 'm1', title: 'Hooks deep dive', done: false },
-      { id: 'm2', title: 'Performance patterns', done: false },
-      { id: 'm3', title: 'Mock React interview', done: false },
+      { id: 'm1', title: 'Hooks deep dive', done: false, updatedAt: NOW },
+      { id: 'm2', title: 'Performance patterns', done: false, updatedAt: NOW },
+      { id: 'm3', title: 'Mock React interview', done: false, updatedAt: NOW },
     ],
     createdAt: NOW,
     updatedAt: NOW,
@@ -41,9 +42,9 @@ export const initialGoals: Goal[] = [
     progress: 5,
     status: 'Not Started',
     milestones: [
-      { id: 'm1', title: 'Generics and narrowing', done: false },
-      { id: 'm2', title: 'Advanced types', done: false },
-      { id: 'm3', title: 'Type-safe components', done: false },
+      { id: 'm1', title: 'Generics and narrowing', done: false, updatedAt: NOW },
+      { id: 'm2', title: 'Advanced types', done: false, updatedAt: NOW },
+      { id: 'm3', title: 'Type-safe components', done: false, updatedAt: NOW },
     ],
     createdAt: NOW,
     updatedAt: NOW,
@@ -56,9 +57,9 @@ export const initialGoals: Goal[] = [
     progress: 5,
     status: 'Not Started',
     milestones: [
-      { id: 'm1', title: 'Framework and basics', done: false },
-      { id: 'm2', title: 'Micro-frontends and multi-tenant', done: false },
-      { id: 'm3', title: 'Five mocks', done: false },
+      { id: 'm1', title: 'Framework and basics', done: false, updatedAt: NOW },
+      { id: 'm2', title: 'Micro-frontends and multi-tenant', done: false, updatedAt: NOW },
+      { id: 'm3', title: 'Five mocks', done: false, updatedAt: NOW },
     ],
     createdAt: NOW,
     updatedAt: NOW,
@@ -71,9 +72,9 @@ export const initialGoals: Goal[] = [
     progress: 8,
     status: 'In Progress',
     milestones: [
-      { id: 'm1', title: 'Arrays, strings and hash maps', done: true },
-      { id: 'm2', title: 'Stacks, queues and trees', done: false },
-      { id: 'm3', title: '45+ problems', done: false },
+      { id: 'm1', title: 'Arrays, strings and hash maps', done: true, updatedAt: NOW },
+      { id: 'm2', title: 'Stacks, queues and trees', done: false, updatedAt: NOW },
+      { id: 'm3', title: '45+ problems', done: false, updatedAt: NOW },
     ],
     createdAt: NOW,
     updatedAt: NOW,
@@ -86,9 +87,9 @@ export const initialGoals: Goal[] = [
     progress: 10,
     status: 'In Progress',
     milestones: [
-      { id: 'm1', title: 'Three mocks', done: true },
-      { id: 'm2', title: 'Seven more', done: false },
-      { id: 'm2b', title: 'Feedback reviewed and gaps closed', done: false },
+      { id: 'm1', title: 'Three mocks', done: true, updatedAt: NOW },
+      { id: 'm2', title: 'Seven more', done: false, updatedAt: NOW },
+      { id: 'm2b', title: 'Feedback reviewed and gaps closed', done: false, updatedAt: NOW },
     ],
     createdAt: NOW,
     updatedAt: NOW,
@@ -101,9 +102,9 @@ export const initialGoals: Goal[] = [
     progress: 15,
     status: 'In Progress',
     milestones: [
-      { id: 'm1', title: 'Three project deep-dives', done: true },
-      { id: 'm2', title: 'Architecture diagrams', done: false },
-      { id: 'm3', title: 'Portfolio review by a peer', done: false },
+      { id: 'm1', title: 'Three project deep-dives', done: true, updatedAt: NOW },
+      { id: 'm2', title: 'Architecture diagrams', done: false, updatedAt: NOW },
+      { id: 'm3', title: 'Portfolio review by a peer', done: false, updatedAt: NOW },
     ],
     createdAt: NOW,
     updatedAt: NOW,
@@ -116,9 +117,9 @@ export const initialGoals: Goal[] = [
     progress: 20,
     status: 'In Progress',
     milestones: [
-      { id: 'm1', title: 'Active interview loops', done: true },
-      { id: 'm2', title: 'Negotiation ready', done: false },
-      { id: 'm3', title: 'Signed offer', done: false },
+      { id: 'm1', title: 'Active interview loops', done: true, updatedAt: NOW },
+      { id: 'm2', title: 'Negotiation ready', done: false, updatedAt: NOW },
+      { id: 'm3', title: 'Signed offer', done: false, updatedAt: NOW },
     ],
     createdAt: NOW,
     updatedAt: NOW,
@@ -131,9 +132,9 @@ export const initialGoals: Goal[] = [
     progress: 25,
     status: 'In Progress',
     milestones: [
-      { id: 'm1', title: 'Notice submitted', done: false },
-      { id: 'm2', title: 'Handover complete', done: false },
-      { id: 'm3', title: 'Signed offer and joining confirmed', done: false },
+      { id: 'm1', title: 'Notice submitted', done: false, updatedAt: NOW },
+      { id: 'm2', title: 'Handover complete', done: false, updatedAt: NOW },
+      { id: 'm3', title: 'Signed offer and joining confirmed', done: false, updatedAt: NOW },
     ],
     createdAt: NOW,
     updatedAt: NOW,

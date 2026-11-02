@@ -1,6 +1,7 @@
 import type { TechCategory, TechTopic } from '../types';
+import { SYNC_EPOCH } from '../lib/sync/constants';
 
-const NOW = new Date().toISOString();
+const NOW = SYNC_EPOCH;
 
 interface TopicSeed {
   name: string;

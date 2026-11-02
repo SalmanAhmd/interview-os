@@ -16,6 +16,35 @@ export function nowISO(): string {
   return new Date().toISOString();
 }
 
+export function nextISO(previous?: string): string {
+  const previousTime = previous ? Date.parse(previous) : 0;
+  return new Date(Math.max(Date.now(), Number.isFinite(previousTime) ? previousTime + 1 : 0)).toISOString();
+}
+
+/**
+ * Deterministic JSON used by sync comparisons and tie-breaks. Key order can
+ * differ between locally-created objects and Zod-rehydrated remote objects, so
+ * plain JSON.stringify would make identical data look different.
+ */
+export function stableStringify(
+  value: unknown,
+  ignoreKeys: ReadonlySet<string> = new Set(),
+): string {
+  return JSON.stringify(value, (key, current) => {
+    if (ignoreKeys.has(key)) return undefined;
+    if (current && typeof current === 'object' && !Array.isArray(current)) {
+      const sorted: Record<string, unknown> = {};
+      for (const childKey of Object.keys(current as Record<string, unknown>).sort()) {
+        if (!ignoreKeys.has(childKey)) {
+          sorted[childKey] = (current as Record<string, unknown>)[childKey];
+        }
+      }
+      return sorted;
+    }
+    return current;
+  });
+}
+
 export function formatInr(value: number): string {
   return new Intl.NumberFormat('en-IN', {
     style: 'currency',

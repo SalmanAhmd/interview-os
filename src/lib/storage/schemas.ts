@@ -6,6 +6,7 @@ import {
   NOTE_CATEGORIES,
   PRIORITIES,
 } from '../../types';
+import { SYNC_EPOCH } from '../sync/constants';
 
 const isoDate = z.string();
 const isoDateTime = z.string();
@@ -34,6 +35,7 @@ export const roadmapTaskSchema = z.object({
   id: z.string(),
   title: z.string(),
   done: z.boolean(),
+  updatedAt: isoDateTime.optional(),
 });
 
 export const roadmapWeekSchema = z.object({
@@ -175,6 +177,14 @@ export const milestoneSchema = z.object({
   id: z.string(),
   title: z.string(),
   done: z.boolean(),
+  updatedAt: isoDateTime.optional(),
+});
+
+export const syncMetaSchema = z.object({
+  settingsUpdatedAt: isoDateTime.default(SYNC_EPOCH),
+  dailyLogsUpdatedAt: z.record(z.string(), isoDateTime).default({}),
+  tombstones: z.record(z.string(), isoDateTime).default({}),
+  resetAt: isoDateTime.optional(),
 });
 
 export const goalSchema = z.object({
@@ -225,6 +235,11 @@ export const appDataSchema = z.object({
   goals: z.array(goalSchema),
   companies: z.array(companySchema),
   notes: z.array(noteSchema),
+  syncMeta: syncMetaSchema.default({
+    settingsUpdatedAt: SYNC_EPOCH,
+    dailyLogsUpdatedAt: {},
+    tombstones: {},
+  }),
 });
 
 export const appExportSchema = z.object({

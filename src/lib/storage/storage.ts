@@ -1,6 +1,7 @@
 import type { PersistStorage, StorageValue } from 'zustand/middleware';
 import { createInitialData, SCHEMA_VERSION } from '../../data/initial-data';
 import type { AppData } from '../../types';
+import { SYNC_EPOCH } from '../sync/constants';
 import { appDataSchema } from './schemas';
 
 export const STORAGE_KEY = 'interview-prep-os-data';
@@ -81,6 +82,18 @@ export function migratePersistedState(persisted: unknown, version: number): { da
   // Fill any arrays or settings added in later versions without destroying
   // existing records. This keeps forward migrations lightweight and safe.
   const defaults = createInitialData();
+  const dailyLogs =
+    typeof candidate.dailyLogs === 'object' && candidate.dailyLogs
+      ? (candidate.dailyLogs as Record<string, unknown>)
+      : {};
+  const rawSyncMeta =
+    typeof candidate.syncMeta === 'object' && candidate.syncMeta
+      ? (candidate.syncMeta as Record<string, unknown>)
+      : {};
+  const legacyDailyLogTimestamps = Object.fromEntries(
+    Object.keys(dailyLogs).map((date) => [date, SYNC_EPOCH]),
+  );
+
   candidate = {
     ...defaults,
     ...candidate,
@@ -88,8 +101,24 @@ export function migratePersistedState(persisted: unknown, version: number): { da
       ...defaults.settings,
       ...(typeof candidate.settings === 'object' && candidate.settings ? candidate.settings : {}),
     },
-    dailyLogs:
-      typeof candidate.dailyLogs === 'object' && candidate.dailyLogs ? candidate.dailyLogs : {},
+    dailyLogs,
+    syncMeta: {
+      settingsUpdatedAt:
+        typeof rawSyncMeta.settingsUpdatedAt === 'string'
+          ? rawSyncMeta.settingsUpdatedAt
+          : SYNC_EPOCH,
+      dailyLogsUpdatedAt: {
+        ...legacyDailyLogTimestamps,
+        ...(typeof rawSyncMeta.dailyLogsUpdatedAt === 'object' && rawSyncMeta.dailyLogsUpdatedAt
+          ? rawSyncMeta.dailyLogsUpdatedAt
+          : {}),
+      },
+      tombstones:
+        typeof rawSyncMeta.tombstones === 'object' && rawSyncMeta.tombstones
+          ? rawSyncMeta.tombstones
+          : {},
+      ...(typeof rawSyncMeta.resetAt === 'string' ? { resetAt: rawSyncMeta.resetAt } : {}),
+    },
   };
 
   const parsed = appDataSchema.safeParse(candidate);

@@ -85,55 +85,6 @@ export function validateImportJson(raw: string): ImportValidationResult {
   };
 }
 
-function mergeById<T extends { id: string }>(current: T[], incoming: T[]): T[] {
-  const existingIds = new Set(current.map((item) => item.id));
-  return [...current, ...incoming.filter((item) => !existingIds.has(item.id))];
-}
-
-/**
- * Merge is deliberately conservative: existing records always win and the
- * imported file only contributes new IDs. Settings remain untouched.
- */
-export function mergeAppData(current: AppData, incoming: AppData): AppData {
-  const dailyLogs = { ...incoming.dailyLogs };
-  Object.entries(current.dailyLogs).forEach(([date, log]) => {
-    const imported = dailyLogs[date];
-    dailyLogs[date] = imported
-      ? {
-          notes: log.notes || imported.notes,
-          statuses: { ...imported.statuses, ...log.statuses },
-        }
-      : log;
-  });
-
-  const techCategories = current.techCategories.map((category) => {
-    const importedCategory = incoming.techCategories.find((item) => item.id === category.id);
-    return importedCategory
-      ? { ...category, topics: mergeById(category.topics, importedCategory.topics) }
-      : category;
-  });
-  incoming.techCategories.forEach((category) => {
-    if (!techCategories.some((item) => item.id === category.id)) {
-      techCategories.push(category);
-    }
-  });
-
-  return {
-    settings: current.settings,
-    roadmap: mergeById(current.roadmap, incoming.roadmap),
-    timetable: mergeById(current.timetable, incoming.timetable),
-    dailyLogs,
-    techCategories,
-    applications: mergeById(current.applications, incoming.applications),
-    interviews: mergeById(current.interviews, incoming.interviews),
-    mockInterviews: mergeById(current.mockInterviews, incoming.mockInterviews),
-    tasks: mergeById(current.tasks, incoming.tasks),
-    goals: mergeById(current.goals, incoming.goals),
-    companies: mergeById(current.companies, incoming.companies),
-    notes: mergeById(current.notes, incoming.notes),
-  };
-}
-
 export function exportApplicationsCsv(applications: JobApplication[]) {
   downloadCsv('applications.csv', applications, [
     { header: 'Company', value: (row) => row.companyName },

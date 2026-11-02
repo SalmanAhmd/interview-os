@@ -37,6 +37,7 @@ export interface RoadmapTask {
   id: string;
   title: string;
   done: boolean;
+  updatedAt?: ISODateTime;
 }
 
 export interface RoadmapWeek extends BaseEntity {
@@ -253,6 +254,7 @@ export interface Milestone {
   id: string;
   title: string;
   done: boolean;
+  updatedAt?: ISODateTime;
 }
 
 export interface Goal extends BaseEntity {
@@ -319,6 +321,13 @@ export interface Note extends BaseEntity {
 /* Application data                                                    */
 /* ------------------------------------------------------------------ */
 
+export interface SyncMeta {
+  settingsUpdatedAt: ISODateTime;
+  dailyLogsUpdatedAt: Record<string, ISODateTime>;
+  tombstones: Record<string, ISODateTime>;
+  resetAt?: ISODateTime;
+}
+
 export interface AppData {
   settings: Settings;
   roadmap: RoadmapWeek[];
@@ -332,6 +341,7 @@ export interface AppData {
   goals: Goal[];
   companies: Company[];
   notes: Note[];
+  syncMeta: SyncMeta;
 }
 
 export interface AppExport {

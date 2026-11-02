@@ -1,6 +1,7 @@
 import type { ActivityCategory, TimetableSlot } from '../types';
+import { SYNC_EPOCH } from '../lib/sync/constants';
 
-const NOW = new Date().toISOString();
+const NOW = SYNC_EPOCH;
 
 interface SlotSeed {
   id: string;

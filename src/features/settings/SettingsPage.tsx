@@ -38,6 +38,7 @@ import { SCHEMA_VERSION, defaultSettings } from '../../data/initial-data';
 import { STORAGE_KEY } from '../../lib/storage/storage';
 import { formatDate } from '../../lib/dates';
 import { formatLakhs, parseTags, splitLines } from '../../lib/utils';
+import { SyncSettingsCard } from './SyncSettingsCard';
 
 const settingsFormSchema = z.object({
   userName: z.string().trim().min(2, 'Add your name.'),
@@ -182,7 +183,7 @@ export default function SettingsPage() {
     importData(pendingImport.data, importMode);
     if (importMode === 'replace') reset(toDefaults(pendingImport.data.settings));
     success(importMode === 'replace' ? 'Backup restored' : 'Backup merged', {
-      description: `${pendingImport.fileName} · ${importMode === 'replace' ? 'replaced all data' : 'added new records'}`,
+      description: `${pendingImport.fileName} · ${importMode === 'replace' ? 'replaced all data' : 'newest records kept'}`,
     });
     setPendingImport(null);
     if (fileInputRef.current) fileInputRef.current.value = '';
@@ -210,7 +211,7 @@ export default function SettingsPage() {
       <PageHeader
         eyebrow="Workspace configuration"
         title="Settings"
-        description="Tune your preparation profile, appearance and local data. Everything is stored in this browser — export backups regularly."
+        description="Tune your preparation profile, appearance and local data. Everything stays in this browser unless you turn on optional encrypted sync."
       />
 
       <div className="grid gap-6 xl:grid-cols-[1.6fr_1fr]">
@@ -304,6 +305,7 @@ export default function SettingsPage() {
                   </div>
                   <p className="mt-1 text-2xs leading-4 text-muted-foreground">
                     Includes settings, roadmap, timetable, applications, interviews, notes and every other module.
+                    Sync tokens, passphrases and sync configuration are never included.
                   </p>
                   <Button variant="outline" size="sm" className="mt-3" onClick={handleExportBackup}>
                     <Download className="h-3.5 w-3.5" />
@@ -395,7 +397,8 @@ export default function SettingsPage() {
                 <h3 className="text-xs font-semibold text-danger">Reset everything</h3>
                 <p className="mt-1 text-2xs leading-4 text-muted-foreground">
                   Deletes all applications, interviews, mocks, tasks, notes and research, then restores the seeded
-                  roadmap, timetable and goals. Export a backup first.
+                  roadmap, timetable and goals. Export a backup first. If encrypted sync is on, the reset is pushed
+                  on the next sync.
                 </p>
                 <Button variant="danger" size="sm" className="mt-3" onClick={() => setResetTarget('all')}>
                   <Trash2 className="h-3.5 w-3.5" />
@@ -407,6 +410,8 @@ export default function SettingsPage() {
         </div>
 
         <div className="space-y-6">
+          <SyncSettingsCard />
+
           <Card>
             <CardHeader title="Appearance" description="Choose how the app looks on this device." />
             <CardContent className="space-y-2">
@@ -438,7 +443,7 @@ export default function SettingsPage() {
           </Card>
 
           <Card>
-            <CardHeader title="Local storage" description="No account, no cloud — just this browser." />
+            <CardHeader title="Local storage" description="Primary data store on this device." />
             <CardContent className="space-y-3">
               <div className="flex items-center justify-between text-xs">
                 <span className="inline-flex items-center gap-1.5 text-muted-foreground">
@@ -465,8 +470,9 @@ export default function SettingsPage() {
                 <span className="font-medium">{formatDate(settings.targetLwd)}</span>
               </div>
               <p className="rounded-md border border-border bg-muted/20 px-3 py-2 text-2xs leading-4 text-muted-foreground">
-                Storage key: <code className="font-mono">{STORAGE_KEY}</code>. Clearing browser data will remove
-                your progress — keep a JSON backup.
+                Storage key: <code className="font-mono">{STORAGE_KEY}</code>. This browser remains the primary
+                store; encrypted sync is only a mirror. Clearing browser data will remove your progress — keep a JSON
+                backup.
               </p>
             </CardContent>
           </Card>
@@ -542,7 +548,8 @@ export default function SettingsPage() {
                 <span>
                   <span className="block font-medium">Merge with current data</span>
                   <span className="mt-0.5 block text-2xs leading-4 text-muted-foreground">
-                    Existing records win by ID. Imported records with new IDs are added. Settings stay unchanged.
+                    Newest edit wins per record; records missing from the backup are kept. Settings use their own
+                    timestamp.
                   </span>
                 </span>
               </label>

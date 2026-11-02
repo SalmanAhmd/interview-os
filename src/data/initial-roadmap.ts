@@ -1,9 +1,10 @@
 import { addDays, format, parseISO } from 'date-fns';
 import type { RoadmapWeek, WeekStatus } from '../types';
+import { SYNC_EPOCH } from '../lib/sync/constants';
 
 const PREP_START = parseISO('2026-11-02');
 const LWD = parseISO('2027-03-31');
-const NOW = new Date().toISOString();
+const NOW = SYNC_EPOCH;
 
 interface WeekSeed {
   number: number;

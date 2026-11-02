@@ -4,6 +4,7 @@ import { Suspense, lazy, useEffect } from 'react';
 import { ErrorBoundary } from './ErrorBoundary';
 import { ThemeProvider } from './providers/ThemeProvider';
 import { StorageErrorListener } from './providers/StorageErrorListener';
+import { SyncProvider } from './providers/SyncProvider';
 import { AppShell } from '../components/layout/AppShell';
 import { PageSkeleton } from '../components/ui/skeleton';
 
@@ -46,118 +47,120 @@ export function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider>
-        <HashRouter>
-          <StorageErrorListener />
-          <ScrollToTop />
-          <Routes>
-            <Route element={<Shell />}>
-              <Route
-                index
-                element={
-                  <Page>
-                    <DashboardPage />
-                  </Page>
-                }
-              />
-              <Route
-                path="roadmap"
-                element={
-                  <Page>
-                    <RoadmapPage />
-                  </Page>
-                }
-              />
-              <Route
-                path="timetable"
-                element={
-                  <Page>
-                    <TimetablePage />
-                  </Page>
-                }
-              />
-              <Route
-                path="technical"
-                element={
-                  <Page>
-                    <TechnicalPage />
-                  </Page>
-                }
-              />
-              <Route
-                path="applications"
-                element={
-                  <Page>
-                    <ApplicationsPage />
-                  </Page>
-                }
-              />
-              <Route
-                path="interviews"
-                element={
-                  <Page>
-                    <InterviewsPage />
-                  </Page>
-                }
-              />
-              <Route
-                path="mock-interviews"
-                element={
-                  <Page>
-                    <MockInterviewsPage />
-                  </Page>
-                }
-              />
-              <Route
-                path="tasks"
-                element={
-                  <Page>
-                    <TasksPage />
-                  </Page>
-                }
-              />
-              <Route
-                path="goals"
-                element={
-                  <Page>
-                    <TasksPage initialTab="goals" />
-                  </Page>
-                }
-              />
-              <Route
-                path="companies"
-                element={
-                  <Page>
-                    <CompaniesPage />
-                  </Page>
-                }
-              />
-              <Route
-                path="notes"
-                element={
-                  <Page>
-                    <NotesPage />
-                  </Page>
-                }
-              />
-              <Route
-                path="settings"
-                element={
-                  <Page>
-                    <SettingsPage />
-                  </Page>
-                }
-              />
-              <Route
-                path="*"
-                element={
-                  <Page>
-                    <NotFoundPage />
-                  </Page>
-                }
-              />
-            </Route>
-          </Routes>
-        </HashRouter>
+        <SyncProvider>
+          <HashRouter>
+            <StorageErrorListener />
+            <ScrollToTop />
+            <Routes>
+              <Route element={<Shell />}>
+                <Route
+                  index
+                  element={
+                    <Page>
+                      <DashboardPage />
+                    </Page>
+                  }
+                />
+                <Route
+                  path="roadmap"
+                  element={
+                    <Page>
+                      <RoadmapPage />
+                    </Page>
+                  }
+                />
+                <Route
+                  path="timetable"
+                  element={
+                    <Page>
+                      <TimetablePage />
+                    </Page>
+                  }
+                />
+                <Route
+                  path="technical"
+                  element={
+                    <Page>
+                      <TechnicalPage />
+                    </Page>
+                  }
+                />
+                <Route
+                  path="applications"
+                  element={
+                    <Page>
+                      <ApplicationsPage />
+                    </Page>
+                  }
+                />
+                <Route
+                  path="interviews"
+                  element={
+                    <Page>
+                      <InterviewsPage />
+                    </Page>
+                  }
+                />
+                <Route
+                  path="mock-interviews"
+                  element={
+                    <Page>
+                      <MockInterviewsPage />
+                    </Page>
+                  }
+                />
+                <Route
+                  path="tasks"
+                  element={
+                    <Page>
+                      <TasksPage />
+                    </Page>
+                  }
+                />
+                <Route
+                  path="goals"
+                  element={
+                    <Page>
+                      <TasksPage initialTab="goals" />
+                    </Page>
+                  }
+                />
+                <Route
+                  path="companies"
+                  element={
+                    <Page>
+                      <CompaniesPage />
+                    </Page>
+                  }
+                />
+                <Route
+                  path="notes"
+                  element={
+                    <Page>
+                      <NotesPage />
+                    </Page>
+                  }
+                />
+                <Route
+                  path="settings"
+                  element={
+                    <Page>
+                      <SettingsPage />
+                    </Page>
+                  }
+                />
+                <Route
+                  path="*"
+                  element={
+                    <Page>
+                      <NotFoundPage />
+                    </Page>
+                  }
+                />
+              </Route>
+            </Routes>
+          </HashRouter>
+        </SyncProvider>
       </ThemeProvider>
     </ErrorBoundary>
   );
