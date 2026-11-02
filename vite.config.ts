@@ -8,7 +8,7 @@ import react from '@vitejs/plugin-react';
  */
 export default defineConfig(({ mode }) => ({
   plugins: [react()],
-  base: mode === 'production' ? process.env.BASE_PATH || '/interview-preparation/' : '/',
+  base: mode === 'production' ? process.env.BASE_PATH || '/interview-os/' : '/',
   build: {
     outDir: 'dist',
     sourcemap: false,
