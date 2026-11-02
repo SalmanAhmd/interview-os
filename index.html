@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en" class="h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A local-first interview preparation OS for a Senior/Lead Frontend Engineer transition."
+    />
+    <meta name="theme-color" content="#09090b" />
+    <link rel="icon" type="image/svg+xml" href="/interview-os/favicon.svg" />
+    <title>Interview OS · Frontend Career Transition</title>
+    <script>
+      // Apply the persisted theme before paint to avoid a flash of the wrong mode.
+      (function () {
+        try {
+          var raw = localStorage.getItem('interview-prep-os-data');
+          var theme = 'system';
+          if (raw) {
+            var parsed = JSON.parse(raw);
+            var state = parsed && parsed.state ? parsed.state : parsed;
+            theme = (state && state.data && state.data.settings && state.data.settings.theme) || 'system';
+          }
+          var dark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          document.documentElement.classList.toggle('dark', dark);
+          document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+        } catch (error) {
+          /* localStorage can be unavailable; the app will fall back to defaults. */
+        }
+      })();
+    </script>
+    <script type="module" crossorigin src="/interview-os/assets/index-Cor1a4AI.js"></script>
+    <link rel="stylesheet" crossorigin href="/interview-os/assets/index-BHmr9Rfu.css">
+  </head>
+  <body class="h-full">
+    <div id="root" class="h-full"></div>
+  </body>
+</html>

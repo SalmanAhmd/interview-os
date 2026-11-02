@@ -1,0 +1,1 @@
+import{j as o,L as e,e as i,an as m}from"./index-Cor1a4AI.js";function p({variant:s="primary",size:t="md",className:n,children:a,...r}){return o.jsx(e,{className:i(m({variant:s,size:t}),n),...r,children:a})}export{p as L};
